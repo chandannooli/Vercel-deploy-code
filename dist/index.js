@@ -11,10 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const redis_1 = require("redis");
 const AWS_1 = require("./AWS");
-const Utils_1 = require("./Utils_old");
+const Utils_1 = require("./Utils");
 const subscriber = (0, redis_1.createClient)();
 subscriber.connect();
-
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         while (1) {
@@ -22,9 +21,10 @@ function main() {
             var id = null;
             if (res !== null) {
                 id = res.element;
-            } else {
+            }
+            else {
                 console.log("Response was Null. Operation complete.");
-                break; // Changed 'stop' to 'break' to exit the loop
+                stop;
             }
             yield (0, AWS_1.downloadS3Folder)(`output/${id}`);
             console.log(`output/${id}`);
@@ -33,5 +33,4 @@ function main() {
         }
     });
 }
-
 main();

@@ -11,7 +11,9 @@ function buildProject(id) {
     return new Promise((resolve) => {
         var _a, _b;
         console.log("Reached Building stage function 2");
+        console.log('CHECK');
         console.log(`DIR NAME ${__dirname}`);
+        console.log('CHECK2', `output/${id}}`);
         const child = (0, child_process_1.exec)(`cd ${path_1.default.join(__dirname, `output/${id}`)} && npm install && npm run build`);
         console.log('vv', child);
         (_a = child.stdout) === null || _a === void 0 ? void 0 : _a.on('data', function (data) {

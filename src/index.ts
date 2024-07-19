@@ -28,8 +28,8 @@ async function main() {
 
         await downloadS3Folder (`output/${id}`)
         console.log(`output/${id}`)
-        buildProject (`${id}`)
-        copyFinalDist (`${id}`)
+        await buildProject (`${id}`)
+        await copyFinalDist (`${id}`)
 		
     }
 }
