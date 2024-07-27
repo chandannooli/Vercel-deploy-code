@@ -14,11 +14,13 @@ const AWS_1 = require("./AWS");
 const Utils_1 = require("./Utils");
 const subscriber = (0, redis_1.createClient)();
 subscriber.connect();
+const publisher = (0, redis_1.createClient)();
+publisher.connect();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         while (1) {
             const res = yield subscriber.brPop((0, redis_1.commandOptions)({ isolated: true }), 'build-queue', 0);
-            var id = null;
+            var id = "null";
             if (res !== null) {
                 id = res.element;
             }
@@ -30,6 +32,7 @@ function main() {
             console.log(`output/${id}`);
             yield (0, Utils_1.buildProject)(`${id}`);
             yield (0, AWS_1.copyFinalDist)(`${id}`);
+            publisher.hSet("status", id, "deployed");
         }
     });
 }

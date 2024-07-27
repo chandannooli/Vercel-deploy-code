@@ -5,6 +5,10 @@ import { buildProject } from "./Utils";
 const subscriber = createClient();
 subscriber.connect();
 
+const publisher = createClient();
+publisher.connect();
+
+
 
 
 async function main() {
@@ -15,7 +19,7 @@ async function main() {
             0
         );
 
-        var id = null;
+        var id = "null";
 
         if (res !== null) {
             id = res.element
@@ -25,11 +29,13 @@ async function main() {
         }
         
     
-
+        
         await downloadS3Folder (`output/${id}`)
         console.log(`output/${id}`)
         await buildProject (`${id}`)
         await copyFinalDist (`${id}`)
+        publisher.hSet("status", id, "deployed");
+
 		
     }
 }
